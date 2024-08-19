@@ -1,0 +1,29 @@
+# Build
+target
+bin
+
+# Compiled class file
+*.class
+
+# Eclipse
+.project
+.settings
+.classpath
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
