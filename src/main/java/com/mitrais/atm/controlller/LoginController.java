@@ -12,10 +12,10 @@ public class LoginController extends BaseController {
 
 	private LoginService loginService;
 		
-    public LoginController(SessionManager sessionManager, String sessionId) {
+    public LoginController(SessionManager sessionManager, String sessionId, LoginView loginView, LoginServiceImpl loginServiceImpl) {
     	super(sessionManager, sessionId);
-        this.view = new LoginView();
-        this.loginService = new LoginServiceImpl();
+        this.view = loginView;
+        this.loginService = loginServiceImpl;
     }
     
     public LoginUser displayLogin() {

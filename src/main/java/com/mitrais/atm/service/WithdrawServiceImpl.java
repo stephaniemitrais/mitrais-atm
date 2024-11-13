@@ -7,8 +7,8 @@ public class WithdrawServiceImpl implements WithdrawService {
 
 	private AccountService accountService;
 	
-	public WithdrawServiceImpl() {
-		this.accountService = new AccountServiceImpl();
+	public WithdrawServiceImpl(AccountServiceImpl accountServiceImpl) {
+		this.accountService = accountServiceImpl;
 	}
 	@Override
 	public void withdraw(String accountNo, Long withdrawAmount) throws WithdrawException {

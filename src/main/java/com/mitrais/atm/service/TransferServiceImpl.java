@@ -8,8 +8,8 @@ public class TransferServiceImpl implements TransferService {
 
 	private AccountService accountService;
 	
-	public TransferServiceImpl() {
-		this.accountService = new AccountServiceImpl();
+	public TransferServiceImpl(AccountServiceImpl accountServiceImpl) {
+		this.accountService = accountServiceImpl;
 	}
 	
 	@Override

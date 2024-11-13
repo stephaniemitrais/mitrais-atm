@@ -18,7 +18,7 @@ public class AccountServiceTest {
     private AccountRepo accountRepo;
 
     @InjectMocks
-    private AccountServiceImpl accountService = new AccountServiceImpl();
+    private AccountServiceImpl accountService = new AccountServiceImpl(new AccountRepoImpl());
 
     @Test
     public void testGetAccountBalance_AccountBalanceFound() {

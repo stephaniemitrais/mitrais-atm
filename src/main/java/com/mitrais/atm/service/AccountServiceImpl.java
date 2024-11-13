@@ -6,11 +6,8 @@ public class AccountServiceImpl implements AccountService {
 
 	private AccountRepo accountRepo;
 
-	public AccountServiceImpl(AccountRepo accountRepo) {
-		this.accountRepo = accountRepo;
-	}
-	public AccountServiceImpl() {
-		this.accountRepo = new AccountRepoImpl();
+	public AccountServiceImpl(AccountRepoImpl accountRepoImpl) {
+		this.accountRepo = accountRepoImpl;
 	}
 	
 	@Override

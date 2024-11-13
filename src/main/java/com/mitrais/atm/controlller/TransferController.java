@@ -23,11 +23,11 @@ public class TransferController extends BaseController {
 	
 	private AccountService accountService;
 	
-	public TransferController(SessionManager sessionManager, String sessionId) {
+	public TransferController(SessionManager sessionManager, String sessionId, TransferView transferView, TransferServiceImpl transferServiceImpl, AccountServiceImpl accountServiceImpl) {
 		super(sessionManager, sessionId);
-		this.view = new TransferView();
-		this.service = new TransferServiceImpl();
-		this.accountService = new AccountServiceImpl();
+		this.view = transferView;
+		this.service = transferServiceImpl;
+		this.accountService = accountServiceImpl;
 	}
 	
 	public void displayTransfer() {

@@ -1,7 +1,7 @@
 package com.mitrais.atm.view;
 
 public class HomeView extends ATMView {
-
+	
 	@Override
 	public void display() {
 		System.out.println("================");

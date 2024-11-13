@@ -21,11 +21,11 @@ public class WithdrawController extends BaseController {
 	
 	private AccountService accountService;
 
-	public WithdrawController(SessionManager sessionManager, String sessionId) {
+	public WithdrawController(SessionManager sessionManager, String sessionId, WithdrawView withdrawView, WithdrawServiceImpl withdrawServiceImpl, AccountServiceImpl accountServiceImpl) {
 		super(sessionManager, sessionId);
-		this.view = new WithdrawView();
-		this.service = new WithdrawServiceImpl();
-		this.accountService = new AccountServiceImpl();
+		this.view = withdrawView;
+		this.service = withdrawServiceImpl;
+		this.accountService = accountServiceImpl;
 	}
 	
 	public void displayWithdraw() {

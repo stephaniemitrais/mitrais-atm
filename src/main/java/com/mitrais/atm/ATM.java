@@ -2,6 +2,9 @@ package com.mitrais.atm;
 
 import com.mitrais.atm.controlller.HomeController;
 import com.mitrais.atm.controlller.LoginController;
+import com.mitrais.atm.service.LoginServiceImpl;
+import com.mitrais.atm.view.HomeView;
+import com.mitrais.atm.view.LoginView;
 
 
 public class ATM {
@@ -16,7 +19,7 @@ public class ATM {
 		
 	    boolean atmIsRunning = true;
 
-	    LoginController loginController = new LoginController(sessionManager, null);
+	    LoginController loginController = new LoginController(sessionManager, null, new LoginView(), new LoginServiceImpl());
 	    
 	    while (atmIsRunning) {     	   
 	    	LoginUser loginUser = loginController.displayLogin();
@@ -25,7 +28,7 @@ public class ATM {
             	String sessionId = SessionManager.createSession(loginUser);
             	
             	// go to next main menu view
-    	    	HomeController homeController = new HomeController(sessionManager, sessionId);
+    	    	HomeController homeController = new HomeController(sessionManager, sessionId, new HomeView());
     	    	homeController.displayMainMenu();
 	    	}
 	    	
