@@ -16,7 +16,9 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.mitrais.atm.LoginUser;
-import com.mitrais.atm.model.Account;
+import com.mitrais.atm.account.entity.Account;
+import com.mitrais.atm.account.repo.AccountRepo;
+import com.mitrais.atm.account.service.LoginServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class) 
 public class LoginServiceTest {

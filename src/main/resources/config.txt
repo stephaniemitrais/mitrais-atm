@@ -1,0 +1,1 @@
+accountCsvFilePath=/src/main/resources/accounts.csv

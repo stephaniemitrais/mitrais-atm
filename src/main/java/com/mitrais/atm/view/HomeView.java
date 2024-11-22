@@ -10,7 +10,8 @@ public class HomeView extends ATMView {
 		
 		System.out.println("1. Withdraw");
 		System.out.println("2. Fund Transfer");
-		System.out.println("3. Exit");
+		System.out.println("3. Transaction History");
+		System.out.println("4. Exit");
 		
 	}
 

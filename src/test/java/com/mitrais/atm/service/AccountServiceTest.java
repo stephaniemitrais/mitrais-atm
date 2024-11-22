@@ -10,15 +10,18 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import com.mitrais.atm.model.Account;
+import com.mitrais.atm.account.entity.Account;
+import com.mitrais.atm.account.repo.AccountRepoImpl;
+import com.mitrais.atm.account.service.AccountServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class) 
 public class AccountServiceTest {
+	
 	@Mock
-    private AccountRepo accountRepo;
+    private AccountRepoImpl accountRepo;
 
     @InjectMocks
-    private AccountServiceImpl accountService = new AccountServiceImpl(new AccountRepoImpl());
+    private AccountServiceImpl accountService;
 
     @Test
     public void testGetAccountBalance_AccountBalanceFound() {
@@ -47,8 +50,8 @@ public class AccountServiceTest {
         accountService.setAccountBalance(accountNo, newBalance);
 
         // Then
-        verify(accountRepo).updateAccount(account);
-        assertEquals(newBalance, account.getBalance());
+        verify(accountRepo).updateBalance(accountNo, newBalance);
+
     }
 
     @Test
@@ -82,5 +85,7 @@ public class AccountServiceTest {
         // Then
         assertEquals(expectedAccount, actualAccount);
     }
+    
+    
     
 }

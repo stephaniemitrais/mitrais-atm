@@ -1,6 +1,9 @@
 package com.mitrais.atm.controlller;
 
+import com.mitrais.atm.LoginUser;
+import com.mitrais.atm.Session;
 import com.mitrais.atm.SessionManager;
+import com.mitrais.atm.account.entity.Account;
 
 public abstract class BaseController {
 
@@ -25,5 +28,17 @@ public abstract class BaseController {
 		this.sessionId = sessionId;
 	}
 	
-	
+	protected String getLoginUserAccountNo() {
+		
+		Session session = sessionManager.getSession(getSessionId());
+		
+		LoginUser loginUser = session.getLoginUser();
+		
+		Account loginAccount = loginUser.getAccount();
+		
+		String accountNo = loginAccount.getAccountNo();
+		
+		return accountNo;
+		
+	}
 }
