@@ -2,7 +2,7 @@ package com.mitrais.atm;
 
 import java.time.LocalDateTime;
 
-import com.mitrais.atm.model.Account;
+import com.mitrais.atm.account.entity.Account;
 
 public class LoginUser {
 
