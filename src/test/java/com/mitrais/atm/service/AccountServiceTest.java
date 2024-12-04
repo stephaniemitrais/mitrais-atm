@@ -1,7 +1,6 @@
 package com.mitrais.atm.service;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Test;
@@ -22,37 +21,6 @@ public class AccountServiceTest {
 
     @InjectMocks
     private AccountServiceImpl accountService;
-
-    @Test
-    public void testGetAccountBalance_AccountBalanceFound() {
-        // Given
-        String accountNo = "123456";
-        Long expectedBalance = 1000L;
-        Account account = new Account(accountNo, "John Doe", "123456", expectedBalance);
-        when(accountRepo.getAccount(accountNo)).thenReturn(account);
-
-        // When
-        Long actualBalance = accountService.getAccountBalance(accountNo);
-
-        // Then
-        assertEquals(expectedBalance, actualBalance);
-    }
-
-    @Test
-    public void testSetAccountBalance_AccountBalanceUpdated() {
-        // Given
-        String accountNo = "123456";
-        Long newBalance = 2000L;
-        Account account = new Account(accountNo, "John Doe", "123456", 1000L);
-        when(accountRepo.getAccount(accountNo)).thenReturn(account);
-
-        // When
-        accountService.setAccountBalance(accountNo, newBalance);
-
-        // Then
-        verify(accountRepo).updateBalance(accountNo, newBalance);
-
-    }
 
     @Test
     public void testGetAccountByAccountNo_AccountFound() {

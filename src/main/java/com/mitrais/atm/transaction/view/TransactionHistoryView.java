@@ -1,7 +1,7 @@
 package com.mitrais.atm.transaction.view;
 
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.List;
 
 import com.mitrais.atm.transaction.entity.Transaction;
 import com.mitrais.atm.view.ATMView;
@@ -16,7 +16,7 @@ public class TransactionHistoryView extends ATMView  {
 		
 	}
 
-	public void displayDetails(LinkedBlockingDeque<Transaction> transactions) {
+	public void displayDetails(List<Transaction> transactions) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(
             "dd-MM-yyyy HH:mm");
 		

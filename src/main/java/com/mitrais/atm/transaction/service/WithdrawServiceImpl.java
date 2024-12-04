@@ -19,12 +19,26 @@ public class WithdrawServiceImpl extends TransactionServiceImpl implements Withd
 		super(transactionRepo);
 		this.accountService = accountServiceImpl;
 	}
+	
 	@Override
 	public void withdraw(String accountNo, Long withdrawAmount) throws WithdrawException {
-		
 		Account account = accountService.getAccountByAccountNo(accountNo);
 		
-		Long balance = account.getBalance();
+		validateWithdraw(account.getBalance(), withdrawAmount);
+
+		account.deductBalance(withdrawAmount);
+		
+		accountService.updateAccount(account);
+		
+		Transaction withdraw = new Withdrawal();
+		withdraw.setTransactionDatetime(LocalDateTime.now());
+		withdraw.setAccount(account);
+		withdraw.setAmount(withdrawAmount);
+		withdraw.setTransactionType(TransactionType.WITHDRAW);
+		addNewTransaction(accountNo, withdraw);
+	}
+	
+	private void validateWithdraw(Long balance, Long withdrawAmount) throws WithdrawException {
 		if(withdrawAmount > 1000) {
 			throw new WithdrawException("Maximum amount to withdraw is $1000");
 		}
@@ -33,15 +47,6 @@ public class WithdrawServiceImpl extends TransactionServiceImpl implements Withd
 			throw new WithdrawException("Insufficient balance: $" + balance);
 		}
 		
-		accountService.setAccountBalance(accountNo, account.getBalance() - withdrawAmount);
-		
-		
-		Transaction withdraw = new Withdrawal();
-		withdraw.setTransactionDatetime(LocalDateTime.now());
-		withdraw.setAccount(account);
-		withdraw.setAmount(withdrawAmount);
-		withdraw.setTransactionType(TransactionType.WITHDRAW);
-		addNewTransaction(accountNo, withdraw);
 	}
 	
 }

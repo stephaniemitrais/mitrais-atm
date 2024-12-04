@@ -23,22 +23,20 @@ public class TransferServiceImpl extends TransactionServiceImpl implements Trans
 	@Override
 	public Transfer createNewTransfer(String destinationAccNo, String sourceAccNo, Long amount) throws TransferException {
 		
-		Transfer transfer = null;
-		
 		validateTransferAccount(destinationAccNo, sourceAccNo);
 		validateTransferAmount(sourceAccNo, amount);
-		
-		transfer = new Transfer();
-		transfer.setAmount(amount);
 
 		Account fromAccount = accountService.getAccountByAccountNo(sourceAccNo);
 		Account toAccount = accountService.getAccountByAccountNo(destinationAccNo);
 		
-		Long sourceBalance = fromAccount.getBalance() - amount;
-		Long destinationBalance = toAccount.getBalance() + amount;
-		
-		accountService.setAccountBalance(fromAccount.getAccountNo(), sourceBalance);
-		accountService.setAccountBalance(toAccount.getAccountNo(), destinationBalance);
+		fromAccount.deductBalance(amount);
+		toAccount.addBalance(amount);
+
+		accountService.updateAccount(fromAccount);
+		accountService.updateAccount(toAccount);
+			
+		Transfer transfer = new Transfer();
+		transfer.setAmount(amount);
 		
 		transfer.setAccount(fromAccount);
 		transfer.setToAccount(toAccount);

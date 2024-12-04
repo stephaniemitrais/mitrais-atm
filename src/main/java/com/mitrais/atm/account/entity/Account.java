@@ -32,9 +32,6 @@ public class Account {
 		this.accountNo = accountNo;
 	}
 	
-	public String getPassword() {
-		return password;
-	}
 	
 	public void setPassword(String password) {
 		this.password = password;
@@ -43,9 +40,19 @@ public class Account {
 	public Long getBalance() {
 		return balance;
 	}
-	
-	public void setBalance(Long balance) {
-		this.balance = balance;
+
+	public void deductBalance(Long amount){
+		this.balance = this.balance - amount;
 	}
+
+	public void addBalance(Long amount){
+		this.balance = this.balance + amount;
+	}
+
+	public boolean validatePassword(String inputtedPassword) {
+		if(this.password.equals(inputtedPassword)) return true;
+		else return false;
+	}
+
 	
 }

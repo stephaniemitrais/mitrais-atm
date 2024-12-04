@@ -10,22 +10,13 @@ public class AccountServiceImpl implements AccountService {
 	public AccountServiceImpl(AccountRepo accountRepo) {
 		this.accountRepo = accountRepo;
 	}
-	
-	@Override
-	public Long getAccountBalance(String accountNo) {
-
-		Long balance = accountRepo.getAccount(accountNo).getBalance();
-		
-		return balance;
-	}
 
 	@Override
-	public void setAccountBalance(String accountNo, Long balance) {
+	public void updateAccount(Account account) {
 		
-		accountRepo.updateBalance(accountNo, balance);
+		accountRepo.updateAccount(account);
 		
 	}
-	
 	
 	@Override
 	public Account getAccountByAccountNo(String accountNo) {

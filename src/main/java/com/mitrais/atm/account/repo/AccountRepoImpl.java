@@ -1,13 +1,8 @@
 package com.mitrais.atm.account.repo;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -60,61 +55,40 @@ public class AccountRepoImpl implements AccountRepo {
         
         
     }
-    
-	// Update the balance for a specific account in the CSV file
+
+    // Method to update an existing account
     @Override
-    public boolean updateBalance(String accountNumber, Long newBalance) {
-        List<String> lines = new ArrayList<>();
-        boolean updated = false;
+    public void updateAccount(Account updatedAccount) {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(Paths.get(currentDir, csvFilePath).toString()))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data[1].equals(accountNumber)) {
-                    // Update balance if account number matches
-                    data[3] = String.valueOf(newBalance); // Update balance (index 2)
-                    line = String.join(",", data); // Reconstruct the updated line
-                    updated = true;
-                }
-                lines.add(line);
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading CSV file: " + e.getMessage());
-        }
-
-        // If the account is found and updated, write the lines back to the file
-        if (updated) {
-        	try (BufferedWriter writer = new BufferedWriter(new FileWriter(Paths.get(currentDir, csvFilePath).toString()))) {
-                for (String line : lines) {
-                    writer.write(line);
-                    writer.newLine();
-                } 
-                
-            } catch (IOException e) {
-                System.out.println("Error writing to CSV file: " + e.getMessage());
-            }
-        	
-            try {
-				updateAccountData();
-			} catch (IOException e) {
-				System.out.println("Error refreshing CSV file: " + e.getMessage());
-			}
-        }
-
-        return updated;
+        // Find and remove the old account
+        accounts.removeIf(account -> account.getAccountNo().equals(updatedAccount.getAccountNo()));
+        // Add the updated account
+        accounts.add(updatedAccount);
+        
     }
     
-    private void updateAccountData() throws IOException {
-    	accounts.clear();
-    	loadAccountsFromCSV();
+    // Method to add a new account
+    @Override
+    public void addAccount(Account newAccount) {
+
+        accounts.add(newAccount);
+
     }
+
     
+    @Override
+    public Set<Account> getAllAccounts() {
+        synchronized (accounts) {
+            return new HashSet<>(accounts); // Return a copy to maintain thread safety
+        }
+    }
+   
+   
     @Override
 	public Account getAccount(String accountNo, String password) {
 
     	Account account = accounts.stream()
-    			.filter(acc -> accountNo.equals(acc.getAccountNo()) && password.equals(acc.getPassword()))
+    			.filter(acc -> accountNo.equals(acc.getAccountNo()) && acc.validatePassword(password))
     			.findAny()                                      
                 .orElse(null);  
 
@@ -132,14 +106,6 @@ public class AccountRepoImpl implements AccountRepo {
     	return account;
     }
 
-	@Override
-	public Account updateAccount(Account account) {
-		Account accountInRepo = getAccount(account.getAccountNo());
-		
-		accountInRepo.setBalance(account.getBalance());
-		
-		return accountInRepo;
-	}	
-	
+
 		
 }

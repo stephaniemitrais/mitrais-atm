@@ -66,24 +66,22 @@ public class WithdrawController extends BaseController {
 					continue;
 				}
 			case "4"://other withdraw
-				String otherAmount = view.getInput("Enter amount to withdraw:");
-				
-				amount = Long.valueOf(otherAmount);
-				
-				if(otherAmount.length() == 0) break;
-				
-				boolean validateOtherAmount = true;
-				
-				while (validateOtherAmount) {
-					if(!validateOtherAmount(otherAmount)) {
-						continue;
-					} else {
-						if(!withdraw(Long.valueOf(otherAmount))) continue;
+
+				otherAmount: while (true) {
+					String otherAmount = view.getInput("Enter amount to withdraw:");
+					
+					if(otherAmount.length() == 0) break otherAmount;
+					
+					if(isValidAmount(otherAmount)) {
+						amount = Long.valueOf(otherAmount);
+						
+						if(!withdraw(amount)) continue;
 						else {
 							successWithdraw = true;
-							validateOtherAmount = false;
 							break withdrawView;
 						}
+					} else {
+						continue;
 					}
 				}
 				break;
@@ -102,7 +100,7 @@ public class WithdrawController extends BaseController {
 			
 			Account loginAccount = user.getAccount();
 			
-			TransactionSummary summary = new WithdrawalSummary(amount, accountService.getAccountBalance(loginAccount.getAccountNo()));
+			TransactionSummary summary = new WithdrawalSummary(amount, accountService.getAccountByAccountNo(loginAccount.getAccountNo()).getBalance());
 			
 			summary.displaySummary("Withdraw successfully");
 
@@ -145,7 +143,7 @@ public class WithdrawController extends BaseController {
 
 	}
 	
-	private boolean validateOtherAmount(String inputtedOtherAmount) {
+	private boolean isValidAmount(String inputtedOtherAmount) {
 		if (!inputtedOtherAmount.chars().allMatch(Character::isDigit)) {
 			view.displayMessage("Invalid ammount");
     		return false;

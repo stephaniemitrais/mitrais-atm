@@ -123,7 +123,7 @@ public class TransferController extends BaseController {
 		// ask for next step
 		if(successTransfer) {
 			
-			TransactionSummary summary = new TransferSummary(destinationAccountNo, amount, referenceNo, accountService.getAccountBalance(sourceAccountNo));
+			TransactionSummary summary = new TransferSummary(destinationAccountNo, amount, referenceNo, accountService.getAccountByAccountNo(sourceAccountNo).getBalance());
 			
 			summary.displaySummary("Transfer successfully");
 

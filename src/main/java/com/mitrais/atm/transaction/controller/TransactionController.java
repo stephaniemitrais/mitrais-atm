@@ -1,6 +1,6 @@
 package com.mitrais.atm.transaction.controller;
 
-import java.util.concurrent.LinkedBlockingDeque;
+import java.util.List;
 
 import com.mitrais.atm.SessionManager;
 import com.mitrais.atm.controlller.BaseController;
@@ -25,7 +25,7 @@ public class TransactionController extends BaseController {
 		
 		String accountNo = getLoginUserAccountNo();
 		
-		LinkedBlockingDeque<Transaction> trans = transactionService.getTransactionHistory(accountNo);
+		List<Transaction> trans = transactionService.getTransactionHistory(accountNo, 10);
 		
 		transactionView.displayDetails(trans);
 		

@@ -1,5 +1,7 @@
 package com.mitrais.atm.account.repo;
 
+import java.util.Set;
+
 import com.mitrais.atm.account.entity.Account;
 
 public interface AccountRepo {
@@ -7,9 +9,10 @@ public interface AccountRepo {
 	Account getAccount(String accountNo, String password);
 
 	Account getAccount(String accountNo);
-	
-	Account updateAccount(Account account);
-	
-	boolean updateBalance(String accountNo, Long newBalance);
 
+	Set<Account> getAllAccounts();
+	
+	void addAccount(Account newAccount);
+	
+	void updateAccount(Account updatedAccount);
 }
