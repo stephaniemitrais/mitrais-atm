@@ -2,7 +2,7 @@ package com.mitrais.atm.account.entity;
 
 import java.util.Objects;
 
-public class Account {
+public class Account{
 	
 	private String name;
 	private String accountNo;
@@ -42,6 +42,10 @@ public class Account {
 	}
 
 	public void deductBalance(Long amount){
+		if(balance < amount) {
+			throw new IllegalArgumentException("Insufficient balance: $" + balance);
+		}
+		
 		this.balance = this.balance - amount;
 	}
 
@@ -54,5 +58,17 @@ public class Account {
 		else return false;
 	}
 
-	
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(accountNo, account.accountNo);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(accountNo);
+    }
+
 }

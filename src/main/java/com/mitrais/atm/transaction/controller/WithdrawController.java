@@ -9,7 +9,6 @@ import com.mitrais.atm.account.service.AccountServiceImpl;
 import com.mitrais.atm.controlller.BaseController;
 import com.mitrais.atm.transaction.service.WithdrawService;
 import com.mitrais.atm.transaction.service.WithdrawServiceImpl;
-import com.mitrais.atm.transaction.validation.WithdrawException;
 import com.mitrais.atm.transaction.view.TransactionSummary;
 import com.mitrais.atm.transaction.view.WithdrawView;
 import com.mitrais.atm.transaction.view.WithdrawalSummary;
@@ -75,7 +74,7 @@ public class WithdrawController extends BaseController {
 					if(isValidAmount(otherAmount)) {
 						amount = Long.valueOf(otherAmount);
 						
-						if(!withdraw(amount)) continue;
+						if(!withdraw(amount)) break otherAmount;
 						else {
 							successWithdraw = true;
 							break withdrawView;
@@ -135,7 +134,7 @@ public class WithdrawController extends BaseController {
 			isSuccess = true;
 			
 			return isSuccess;
-		} catch (WithdrawException e) {
+		} catch (IllegalArgumentException e) {
 			view.displayMessage(e.getMessage());
 			
 			return isSuccess;
@@ -148,6 +147,9 @@ public class WithdrawController extends BaseController {
 			view.displayMessage("Invalid ammount");
     		return false;
     	} 
+		if(Long.valueOf(inputtedOtherAmount) > 1000) {
+			view.displayMessage("Maximum amount to withdraw is $1000");
+		}
     	return true;
 	}
 	

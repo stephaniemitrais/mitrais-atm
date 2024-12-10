@@ -9,7 +9,6 @@ import com.mitrais.atm.transaction.entity.Transaction;
 import com.mitrais.atm.transaction.entity.TransactionType;
 import com.mitrais.atm.transaction.entity.Withdrawal;
 import com.mitrais.atm.transaction.repo.TransactionRepo;
-import com.mitrais.atm.transaction.validation.WithdrawException;
 
 public class WithdrawServiceImpl extends TransactionServiceImpl implements WithdrawService {
 
@@ -21,13 +20,11 @@ public class WithdrawServiceImpl extends TransactionServiceImpl implements Withd
 	}
 	
 	@Override
-	public void withdraw(String accountNo, Long withdrawAmount) throws WithdrawException {
+	public void withdraw(String accountNo, Long withdrawAmount) {
 		Account account = accountService.getAccountByAccountNo(accountNo);
 		
-		validateWithdraw(account.getBalance(), withdrawAmount);
-
 		account.deductBalance(withdrawAmount);
-		
+
 		accountService.updateAccount(account);
 		
 		Transaction withdraw = new Withdrawal();
@@ -38,15 +35,6 @@ public class WithdrawServiceImpl extends TransactionServiceImpl implements Withd
 		addNewTransaction(accountNo, withdraw);
 	}
 	
-	private void validateWithdraw(Long balance, Long withdrawAmount) throws WithdrawException {
-		if(withdrawAmount > 1000) {
-			throw new WithdrawException("Maximum amount to withdraw is $1000");
-		}
-		
-		if(balance < withdrawAmount) {
-			throw new WithdrawException("Insufficient balance: $" + balance);
-		}
-		
-	}
+
 	
 }
